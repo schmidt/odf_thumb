@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'odf_thumb'
+
+options = {}
+parser = OptionParser.new do |opts|
+  opts.banner = "Usage: odt_thumb [options] source.odt"
+
+  opts.on("-o", "--outfile target.png", "Write PNG to given path") do |target|
+    options[:target] = target
+  end
+
+  opts.on("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+end
+
+parser.parse!
+
+if ARGV.size != 1
+  puts parser
+  exit
+end
+
+doc = begin
+  OdfThumb::Document.new(ARGV[0])
+rescue ArgumentError
+  warn "File not readable - #{ARGV[0]}"
+  exit 2
+end
+
+unless doc.has_thumb?
+  warn "File does not contain thumbnail."
+  exit 1
+end
+
+target = if options[:target]
+  options[:target]
+else
+  File.join(File.dirname(doc.source), File.basename(doc.source, ".*") + ".png")
+end
+
+doc.write_thumbnail_to(target)
+puts "Thumbnail written to #{target}"
