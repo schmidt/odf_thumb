@@ -23,9 +23,10 @@ the thumbnail
 ## Alternative approaches
 
 If these properties do not meet your requirements, try creating a thumbnail
-by making use LibreOffice's conversion capabilities. E.g. convert your document
-to a PNG and create a thumbnail based on that. The following command will create
-a PNG called `Example.png` based on the first page of a OpenDocument text file.
+by making use of LibreOffice's conversion capabilities. E.g. convert your
+document to a PNG and create a thumbnail based on that. The following command
+will create a PNG called `Example.png` based on the first page of a OpenDocument
+text file.
 
     soffice --headless --convert-to png Example.odt
 
